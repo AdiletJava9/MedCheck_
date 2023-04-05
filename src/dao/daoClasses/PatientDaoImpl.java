@@ -13,13 +13,21 @@ public class PatientDaoImpl implements PatientDao {
 
     @Override
     public String addPatientToHospital(Long id, Patient patient) {
+        boolean loop = false;
         for (Hospital h : dateBase.getHospitals()) {
             if (h.getId() == id) {
                 h.getPatients().add(patient);
+                loop = false;
+            } else {
+                loop = true;
             }
         }
+        if (loop) {
+            return "Tabylgan jok !";
+        }
+
         return "Added";
-}
+    }
 
     @Override
     public String addPatientsToHospital(Long id, List<Patient> patients) {
