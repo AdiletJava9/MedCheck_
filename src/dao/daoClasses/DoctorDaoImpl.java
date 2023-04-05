@@ -13,7 +13,7 @@ public class DoctorDaoImpl implements DoctorDao {
     public String addDoctorToHospital(Long id, Doctor doctor) {
         for (Hospital h:dataBase.getHospitals()) {
             if (h.getId().equals(id)){
-
+                System.out.println("adilet baike");
             }
         }
         return null;
