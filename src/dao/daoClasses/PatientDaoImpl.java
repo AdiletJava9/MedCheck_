@@ -13,8 +13,13 @@ public class PatientDaoImpl implements PatientDao {
 
     @Override
     public String addPatientToHospital(Long id, Patient patient) {
-        return null;
-    }
+        for (Hospital h : dateBase.getHospitals()) {
+            if (h.getId() == id) {
+                h.getPatients().add(patient);
+            }
+        }
+        return "Added";
+}
 
     @Override
     public String addPatientsToHospital(Long id, List<Patient> patients) {
