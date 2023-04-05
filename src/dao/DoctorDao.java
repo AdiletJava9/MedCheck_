@@ -14,7 +14,6 @@ public interface DoctorDao {
 //             String assignDoctorToDepartment(Long departmentId, List<Long> doctorsId);
 //             List<Doctor> getAllDoctorsByHospitalId(Long id);
 //             List<Doctor> getAllDoctorsByDepartmentId(Long id);
-
     String addDoctorToHospital(Long id, Doctor doctor);
     Doctor findDoctorById(Long id);
     String updateDoctor(Long id, Doctor doctor);
