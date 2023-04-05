@@ -1,13 +1,21 @@
 package dao.daoClasses;
 
 import dao.DoctorDao;
+import db.DateBase;
 import model.Doctor;
+import model.Hospital;
 
 import java.util.List;
 
 public class DoctorDaoImpl implements DoctorDao {
+    DateBase dataBase = new DateBase();
     @Override
     public String addDoctorToHospital(Long id, Doctor doctor) {
+        for (Hospital h:dataBase.getHospitals()) {
+            if (h.getId().equals(id)){
+                System.out.println("adilet baike");
+            }
+        }
         return null;
     }
 
