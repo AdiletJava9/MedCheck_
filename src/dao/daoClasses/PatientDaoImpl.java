@@ -31,6 +31,7 @@ public class PatientDaoImpl implements PatientDao {
 
     @Override
     public String addPatientsToHospital(Long id, List<Patient> patients) {
+        System.out.println("Hello");
         return null;
     }
 
