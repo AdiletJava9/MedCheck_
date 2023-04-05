@@ -12,6 +12,7 @@ public class Main {
         DateBase dateBase = new DateBase();
         System.out.println(dateBase.getHospitals());
         System.out.println("---------------");
+        System.out.println("--------------");
     }
 
 }
