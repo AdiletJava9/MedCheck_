@@ -15,31 +15,31 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public Doctor findDoctorById(Long id) {
-        return null;
+        return doctorDaoImpl.findDoctorById(id);
     }
 
     @Override
     public String updateDoctor(Long id, Doctor doctor) {
-        return null;
+        return doctorDaoImpl.updateDoctor(id,doctor);
     }
 
     @Override
     public void deleteDoctorById(Long id) {
-
+        doctorDaoImpl.deleteDoctorById(id);
     }
 
     @Override
     public String assignDoctorToDepartment(Long departmentId, List<Long> doctorsId) {
-        return null;
+        return doctorDaoImpl.assignDoctorToDepartment(departmentId,doctorsId);
     }
 
     @Override
     public List<Doctor> getAllDoctorsByHospitalId(Long id) {
-        return null;
+        return doctorDaoImpl.getAllDoctorsByHospitalId(id);
     }
 
     @Override
     public List<Doctor> getAllDoctorsByDepartmentId(Long id) {
-        return null;
+        return doctorDaoImpl.getAllDoctorsByDepartmentId(id);
     }
 }
