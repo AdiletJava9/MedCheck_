@@ -7,6 +7,7 @@ import model.Patient;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class PatientDaoImpl implements PatientDao {
     DateBase dateBase = new DateBase();
@@ -15,7 +16,7 @@ public class PatientDaoImpl implements PatientDao {
     public String addPatientToHospital(Long id, Patient patient) {
         boolean loop = false;
         for (Hospital h : dateBase.getHospitals()) {
-            if (h.getId() == id) {
+            if (Objects.equals(h.getId(), id)) {
                 h.getPatients().add(patient);
                 loop = false;
             } else {
