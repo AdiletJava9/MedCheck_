@@ -59,7 +59,7 @@ public class DoctorDaoImpl implements DoctorDao {
             for (Doctor d : dataBase.getDoctors()) {
                 if (d.getId().equals(id)) {
                     d=doctor;
-                    doctor = d;
+                    System.out.println(d);
                 } else {
                     trueFalse = false;
                 }
