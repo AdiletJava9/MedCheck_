@@ -9,7 +9,12 @@ import model.Hospital;
 import java.util.*;
 
 public class DepartmentDaoImpl implements DepartmentDao {
-    DateBase dateBase = new DateBase();
+    private DateBase dateBase = new DateBase();
+
+    public DepartmentDaoImpl(DateBase dateBase) {
+        this.dateBase = dateBase;
+    }
+
 
     @Override
     public String addDepartmentToHospital(Long id, Department department) {

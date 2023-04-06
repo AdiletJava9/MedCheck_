@@ -2,13 +2,18 @@ package service.impl;
 
 import dao.DepartmentDao;
 import dao.daoClasses.DepartmentDaoImpl;
+import db.DateBase;
 import model.Department;
 
 import java.util.List;
 
 public class DepartmentServiceImpl implements DepartmentDao {
+    public DepartmentServiceImpl(DateBase dateBase) {
+        this.dateBase = dateBase;
+    }
 
-DepartmentDaoImpl departmentDaoImpl =  new DepartmentDaoImpl();
+    DateBase dateBase = new DateBase();
+DepartmentDaoImpl departmentDaoImpl =  new DepartmentDaoImpl(dateBase);
     @Override
     public String addDepartmentToHospital(Long id, Department department) {
         return departmentDaoImpl.addDepartmentToHospital(id,department);

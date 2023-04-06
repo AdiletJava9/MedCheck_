@@ -1,13 +1,20 @@
 package service.impl;
 
 import dao.daoClasses.DoctorDaoImpl;
+import db.DateBase;
 import model.Doctor;
 import service.DoctorService;
 
 import java.util.List;
 
 public class DoctorServiceImpl implements DoctorService {
-    DoctorDaoImpl doctorDaoImpl = new DoctorDaoImpl();
+    DateBase dateBase = new DateBase();
+
+    public DoctorServiceImpl(DateBase dateBase) {
+        this.dateBase = dateBase;
+    }
+
+    DoctorDaoImpl doctorDaoImpl = new DoctorDaoImpl(dateBase);
     @Override
     public String addDoctorToHospital(Long id, Doctor doctor) {
         return doctorDaoImpl.addDoctorToHospital(id,doctor);

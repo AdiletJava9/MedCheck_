@@ -1,6 +1,7 @@
 package service.impl;
 
 import dao.daoClasses.PatientDaoImpl;
+import db.DateBase;
 import model.Patient;
 import service.PatientService;
 
@@ -8,7 +9,13 @@ import java.util.List;
 import java.util.Map;
 
 public class PatientServiceImpl implements PatientService {
-    PatientDaoImpl patientDao = new PatientDaoImpl();
+    DateBase dateBase = new DateBase();
+
+    public PatientServiceImpl(DateBase dateBase) {
+        this.dateBase = dateBase;
+    }
+
+    PatientDaoImpl patientDao = new PatientDaoImpl(dateBase);
 
     @Override
     public String addPatientToHospital(Long id, Patient patient) {

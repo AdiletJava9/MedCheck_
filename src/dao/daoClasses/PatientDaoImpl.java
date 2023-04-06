@@ -17,6 +17,10 @@ import java.util.Scanner;
 public class PatientDaoImpl implements PatientDao {
     DateBase dateBase = new DateBase();
 
+    public PatientDaoImpl(DateBase dateBase) {
+        this.dateBase = dateBase;
+    }
+
     @Override
     public String addPatientToHospital(Long id, Patient patient) {
         boolean loop = false;
