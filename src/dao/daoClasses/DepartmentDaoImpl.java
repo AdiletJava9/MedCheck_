@@ -7,11 +7,9 @@ import model.Department;
 import model.Hospital;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class DepartmentDaoImpl implements DepartmentDao {
     DateBase dateBase = new DateBase();
-    List<Hospital>hospitals=new ArrayList<>();
 
     @Override
     public String addDepartmentToHospital(Long id, Department department) {

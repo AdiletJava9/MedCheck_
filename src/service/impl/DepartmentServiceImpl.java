@@ -1,39 +1,37 @@
 package service.impl;
 
 import dao.DepartmentDao;
-import db.DateBase;
+import dao.daoClasses.DepartmentDaoImpl;
 import model.Department;
-import model.Doctor;
-import model.Hospital;
 
 import java.util.List;
 
 public class DepartmentServiceImpl implements DepartmentDao {
 
-
+DepartmentDaoImpl departmentDaoImpl =  new DepartmentDaoImpl();
     @Override
     public String addDepartmentToHospital(Long id, Department department) {
-        return null;
+        return departmentDaoImpl.addDepartmentToHospital(id,department);
 
     }
     @Override
     public List<Department> getAllDepartmentByHospital(Long id) {
-        return null;
+        return departmentDaoImpl.getAllDepartmentByHospital(id);
     }
 
     @Override
     public Department findDepartmentByName(String name) {
-        return null;
+        return departmentDaoImpl.findDepartmentByName(name);
     }
 
     @Override
     public void deleteDepartmentById(Long id) {
-
+departmentDaoImpl.deleteDepartmentById(id);
     }
 
     @Override
     public String updateDepartmentById(Long id, Department department) {
-        return null;
+        return departmentDaoImpl.updateDepartmentById(id,department);
     }
 }
 
