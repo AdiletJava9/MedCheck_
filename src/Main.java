@@ -11,6 +11,8 @@ public class Main {
         System.out.println(patientServiceImpl.addPatientToHospital(2L, patient));
         DateBase dateBase = new DateBase();
         System.out.println(dateBase.getHospitals());
+        System.out.println("---------------");
+        System.out.println("--------------");
     }
 
 }
