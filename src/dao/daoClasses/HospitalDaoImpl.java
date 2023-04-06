@@ -17,6 +17,10 @@ import java.util.Map;
 public class HospitalDaoImpl implements HospitalDao {
     DateBase dateBase = new DateBase();
 
+    public HospitalDaoImpl(DateBase dateBase) {
+        this.dateBase = dateBase;
+    }
+
     @Override
     public String addHospital(Hospital hospital) {
         dateBase.getHospitals().add(hospital);

@@ -12,6 +12,10 @@ import java.util.List;
 public class DoctorDaoImpl implements DoctorDao {
     DateBase dataBase = new DateBase();
 
+    public DoctorDaoImpl(DateBase dataBase) {
+        this.dataBase = dataBase;
+    }
+
     @Override
     public String addDoctorToHospital(Long id, Doctor doctor) {
         try {

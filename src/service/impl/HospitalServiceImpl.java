@@ -1,6 +1,7 @@
 package service.impl;
 
 import dao.daoClasses.HospitalDaoImpl;
+import db.DateBase;
 import model.Hospital;
 import model.Patient;
 import service.HospitalService;
@@ -9,7 +10,13 @@ import java.util.List;
 import java.util.Map;
 
 public class HospitalServiceImpl implements HospitalService {
-    HospitalDaoImpl hospitalDao = new HospitalDaoImpl();
+    DateBase dateBase = new DateBase();
+
+    public HospitalServiceImpl(DateBase dateBase) {
+        this.dateBase = dateBase;
+    }
+
+    HospitalDaoImpl hospitalDao = new HospitalDaoImpl(dateBase);
     @Override
     public String addHospital(Hospital hospital) {
         return hospitalDao.addHospital(hospital);
