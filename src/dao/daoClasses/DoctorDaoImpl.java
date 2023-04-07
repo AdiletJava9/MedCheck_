@@ -7,6 +7,7 @@ import model.Department;
 import model.Doctor;
 import model.Hospital;
 
+import javax.print.Doc;
 import java.util.List;
 
 public class DoctorDaoImpl implements DoctorDao {
@@ -20,9 +21,10 @@ public class DoctorDaoImpl implements DoctorDao {
     public String addDoctorToHospital(Long id, Doctor doctor) {
         try {
             boolean loop = false;
-            for (Hospital h : dataBase.getHospitals()) {
-                if (h.getId().equals(id)) {
-                    h.getDoctors().add(doctor);
+            for (Hospital hospital : dataBase.getHospitals()) {
+                if (hospital.getId().equals(id)) {
+                    hospital.getDoctors().add(doctor);
+                    return "Added!";
                 } else {
                     loop = true;
                 }
@@ -33,18 +35,20 @@ public class DoctorDaoImpl implements DoctorDao {
         } catch (Ex e) {
             System.out.println(e.getMessage());
         }
-        return dataBase.toString();
+        return null;
     }
 
     @Override
     public Doctor findDoctorById(Long id) {
         try {
             boolean looping = true;
-            for (Doctor d : dataBase.getDoctors()) {
-                if (id.equals(d.getId())) {
-                    System.out.println(d);
-                } else {
-                    looping = false;
+            for (Hospital hospital : dataBase.getHospitals()) {
+                for (Doctor doctor : hospital.getDoctors()) {
+                    if (id.equals(doctor.getId())) {
+                        System.out.println(doctor);
+                    } else {
+                        looping = false;
+                    }
                 }
             }
             if (looping) {
@@ -60,12 +64,14 @@ public class DoctorDaoImpl implements DoctorDao {
     public String updateDoctor(Long id, Doctor doctor) {
         try {
             boolean trueFalse = true;
-            for (Doctor d : dataBase.getDoctors()) {
-                if (d.getId().equals(id)) {
-                    d=doctor;
-                    System.out.println(d);
-                } else {
-                    trueFalse = false;
+            for (Hospital hospital : dataBase.getHospitals()) {
+                for (Doctor doctor1 : hospital.getDoctors()) {
+                    if (doctor1.getId().equals(id)) {
+                        doctor1 = doctor;
+                        System.out.println(doctor1);
+                    } else {
+                        trueFalse = false;
+                    }
                 }
             }
             if (trueFalse) {
@@ -82,11 +88,13 @@ public class DoctorDaoImpl implements DoctorDao {
     public void deleteDoctorById(Long id) {
         try {
             boolean loopForDelete = false;
-            for (Doctor d : dataBase.getDoctors()) {
-                if (d.getId().equals(id)) {
-                    dataBase.getDoctors().remove(d);
-                } else {
-                    loopForDelete = true;
+            for (Hospital hospital : dataBase.getHospitals()) {
+                for (Doctor doctor : hospital.getDoctors()) {
+                    if (doctor.getId().equals(id)) {
+                        hospital.getDoctors().remove(doctor);
+                    } else {
+                        loopForDelete = true;
+                    }
                 }
             }
             if (loopForDelete) {
@@ -101,22 +109,24 @@ public class DoctorDaoImpl implements DoctorDao {
     public String assignDoctorToDepartment(Long departmentId, List<Long> doctorsId) {
         try {
             boolean loop = false;
-            for (Doctor doctor : dataBase.getDoctors()) {
-                for (Long idOfDoctor : doctorsId) {
-                    for (Department department : dataBase.getDepartments()) {
-                        if (doctor.getId().equals(idOfDoctor)) {
-                            department.getDoctors().add(doctor);
-                            System.out.println(dataBase.getDepartments());
-                        } else {
-                            loop = true;
+            for (Hospital hospital : dataBase.getHospitals()) {
+                for (Department department : hospital.getDepartments()) {
+                    for (Doctor doctor : hospital.getDoctors()) {
+                        for (Long doctorId : doctorsId) {
+                            if (doctorId.equals(doctor.getId()) && department.getId().equals(departmentId)) {
+                                department.getDoctors().add(doctor);
+                                System.out.println(hospital.getDepartments());
+                            } else {
+                                loop = true;
+                            }
                         }
                     }
                 }
             }
             if (loop) {
-throw new Ex("Id's do not match");
+                throw new Ex("Id's do not match");
             }
-        }catch (Ex e){
+        } catch (Ex e) {
             System.out.println(e.getMessage());
         }
         return null;
@@ -126,11 +136,13 @@ throw new Ex("Id's do not match");
     public List<Doctor> getAllDoctorsByHospitalId(Long id) {
         try {
             boolean loopToGetAllDoctorsByHospital = false;
-            for (Hospital h : dataBase.getHospitals()) {
-                if (h.getId().equals(id)) {
-                    System.out.println(h.getDoctors());
-                } else {
-                    loopToGetAllDoctorsByHospital = true;
+            for (Hospital hospital : dataBase.getHospitals()) {
+                for (Doctor doctor : hospital.getDoctors()) {
+                    if (hospital.getId().equals(id)) {
+                        System.out.println(doctor);
+                    } else {
+                        loopToGetAllDoctorsByHospital = true;
+                    }
                 }
             }
             if (loopToGetAllDoctorsByHospital) {
@@ -146,15 +158,19 @@ throw new Ex("Id's do not match");
     public List<Doctor> getAllDoctorsByDepartmentId(Long id) {
         try {
             boolean getAllDoctorsByDepartment = false;
-            for (Department d : dataBase.getDepartments()) {
-                if (d.getId().equals(id)) {
-                    System.out.println(d.getDoctors());
-                } else {
-                    getAllDoctorsByDepartment = true;
+            for (Hospital hospital : dataBase.getHospitals()) {
+                for (Department department : hospital.getDepartments()) {
+                    for (Doctor doctor : department.getDoctors()) {
+                        if (department.getId().equals(id)) {
+                            System.out.println(doctor);
+                        } else {
+                            getAllDoctorsByDepartment = true;
+                        }
+                    }
                 }
             }
             if (getAllDoctorsByDepartment) {
-                throw new Ex("There is no same id in Department");
+                throw new Ex("Id not found in Department");
             }
         } catch (Ex e) {
             System.out.println(e.getMessage());

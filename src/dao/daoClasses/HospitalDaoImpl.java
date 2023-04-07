@@ -12,8 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//import static jdk.internal.org.jline.utils.Colors.h;
-
 public class HospitalDaoImpl implements HospitalDao {
     DateBase dateBase = new DateBase();
 
@@ -24,7 +22,6 @@ public class HospitalDaoImpl implements HospitalDao {
     @Override
     public String addHospital(Hospital hospital) {
         dateBase.getHospitals().add(hospital);
-        System.out.println("Hospital added successfully ! ");
         return "Hospital added successfully!";
     }
 
@@ -32,14 +29,14 @@ public class HospitalDaoImpl implements HospitalDao {
     public Hospital findHospitalById(Long id) {
         try{
            boolean findHospitalById = true;
-            for (Hospital h : dateBase.getHospitals()) {
-                if (id.equals(h.getId())) {
-                    System.out.println(h);
+            for (Hospital hospital : dateBase.getHospitals()) {
+                if (id.equals(hospital.getId())) {
+                    System.out.println(hospital);
                 }else{
                     findHospitalById = false;
                 }
             }
-            if(findHospitalById){
+            if(!findHospitalById){
                 throw  new Ex("Hospital id is not found!");
             }
         }catch(Ex ex){
@@ -50,22 +47,19 @@ public class HospitalDaoImpl implements HospitalDao {
 
     @Override
     public List<Hospital> getAllHospital() {
-        System.out.println(dateBase.getHospitals());
         return dateBase.getHospitals();
     }
 
     @Override
-    public List<Patient>
-
-    getAllPatientFromHospital(Long id) {
+    public List<Patient> getAllPatientFromHospital(Long id) {
         try {
             boolean getAllPatientFromHospital = false;
-            for (Hospital h : dateBase.getHospitals()) {
-                if (h.getId().equals(id)) {
-                    System.out.println("Patients in Hospital " + h.getHospitalName() + h.getPatients());
-                } else {
-                    getAllPatientFromHospital = true;
-                }
+            for (Hospital hospital : dateBase.getHospitals()) {
+                    if (hospital.getId().equals(id)) {
+                        System.out.println("***"+hospital.getPatients()+"***");
+                    } else {
+                        getAllPatientFromHospital = true;
+                    }
             }
             if (getAllPatientFromHospital) {
                 throw new Ex("Patient is not found!");
@@ -81,11 +75,11 @@ public class HospitalDaoImpl implements HospitalDao {
     public String deleteHospitalById(Long id) {
         try {
             boolean deleteHospital = true;
-            for (Hospital h : dateBase.getHospitals()) {
-                if (h.getId().equals(id)) {
-                    dateBase.getHospitals().remove(h);
+            for (Hospital hospital : dateBase.getHospitals()) {
+                if (hospital.getId().equals(id)) {
+                    dateBase.getHospitals().remove(hospital);
                     System.out.println("Hospital deleted successfully!");
-                    return null;
+                    break;
                 } else {
                     deleteHospital = false;
                 }
@@ -104,12 +98,11 @@ public class HospitalDaoImpl implements HospitalDao {
     public Map<String, Hospital> getAllHospitalByAddress(String address) {
 
         Map<String,Hospital>hospitalMap = new HashMap<>();
-        for (Hospital h: dateBase.getHospitals()) {
+        for (Hospital hospital: dateBase.getHospitals()) {
 
-            if (address.equals(h.getAddress())){
-                hospitalMap.put(h.getAddress(),h);
+            if (address.equals(hospital.getAddress())){
+                hospitalMap.put(hospital.getAddress(),hospital);
                 System.out.println(hospitalMap);
-                return hospitalMap ;
             }
         }
         return null;

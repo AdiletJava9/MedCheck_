@@ -2,20 +2,15 @@ package dao.daoClasses;
 
 import dao.PatientDao;
 import db.DateBase;
+import exceptions.Ex;
 import model.Hospital;
 import model.Patient;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-
-import java.util.Objects;
-
-import java.util.Scanner;
+import java.util.*;
 
 
 public class PatientDaoImpl implements PatientDao {
-    DateBase dateBase = new DateBase();
+    DateBase dateBase;
 
     public PatientDaoImpl(DateBase dateBase) {
         this.dateBase = dateBase;
@@ -23,93 +18,159 @@ public class PatientDaoImpl implements PatientDao {
 
     @Override
     public String addPatientToHospital(Long id, Patient patient) {
-        boolean loop = false;
-        for (Hospital h : dateBase.getHospitals()) {
-            if (Objects.equals(h.getId(), id)) {
-                h.getPatients().add(patient);
-                loop = false;
-            } else {
-                loop = true;
+        try {
+            boolean loop = false;
+            for (Hospital hospital : dateBase.getHospitals()) {
+                if (hospital.getId().equals(id)) {
+                    hospital.getPatients().add(patient);
+                    return "***" + patient + "***";
+                } else {
+                    loop = true;
+                }
             }
+            if (loop) {
+                throw new Ex("Id not found!");
+            }
+        }catch (Ex e){
+            System.out.println(e.getMessage());
         }
-        if (loop) {
-            return "Tabylgan jok !";
-        }
-
-        return "Added";
+        return null;
     }
 
     @Override
     public String addPatientsToHospital(Long id, List<Patient> patients) {
-        boolean loop = false;
-        for (Hospital h : dateBase.getHospitals()) {
-            if (h.getId() == id) {
-                h.setPatients(patients);
-                loop = false;
-            } else {
-                loop = true;
+        try {
+            boolean loop = false;
+            for (Hospital hospital : dateBase.getHospitals()) {
+                if (hospital.getId().equals(id)) {
+                    hospital.setPatients(patients);
+                    loop = false;
+                } else {
+                    loop = true;
+                }
             }
-        }
-        if (loop) {
-            return "Tabylgan jok !";
+            if (loop) {
+                throw new Ex("Id not found of patients are empty!");
+            }
+        }catch (Ex e){
+            System.out.println(e.getMessage());
         }
         return "Added";
     }
 
     @Override
     public String updatePatientById(Long id, Patient patientsNewInfo) {
-        for (Patient p : dateBase.getPatients()) {
-            if (id == p.getId()) {
-                p.setFirstName(patientsNewInfo.getFirstName());
-                p.setLastName(patientsNewInfo.getLastName());
-                p.setAge(patientsNewInfo.getAge());
-                p.setGender(patientsNewInfo.getGender());
+        try {
+            boolean bool = false;
+            for (Hospital hospital : dateBase.getHospitals()) {
+                for (Patient patient : hospital.getPatients()) {
+                    if (patient.getId().equals(id)) {
+                        patient = patientsNewInfo;
+                        return "*** " + patient;
+                    }else{
+                        bool = true;
+                    }
+                }
             }
+            if (bool){
+                throw new Ex("Id not found!");
+            }
+        }catch (Ex e){
+            System.out.println(e.getMessage());
         }
-        return "updated..";
+        return null;
     }
 
     @Override
     public void removePatientById(Long id) {
-        for (Patient p : dateBase.getPatients()) {
-            if (p.getId() == id) {
-                dateBase.getPatients().remove(p);
-                System.out.println("removed");
+        try {
+            boolean b = false;
+            for (Hospital hospital : dateBase.getHospitals()) {
+                for (Patient patient : hospital.getPatients()) {
+                    if (patient.getId().equals(id)) {
+                        System.out.println("*** " + patient);
+                        hospital.getPatients().remove(patient);
+                    }
+                    else {
+                        b=true;
+                    }
+                }
             }
+            if (b){
+                throw new Ex("Id not found");
+            }
+        }catch (Ex e){
+            System.out.println(e.getMessage());
         }
-
     }
 
     @Override
     public Patient getPatientById(Long id) {
-        for (Patient p : dateBase.getPatients()) {
-            if (p.getId() == id) {
-                return p;
+        try {
+            boolean loop = true;
+            for (Hospital hospital : dateBase.getHospitals()) {
+                for (Patient patient : hospital.getPatients()) {
+                    if (patient.getId().equals(id)) {
+                        return patient;
+                    }
+                    else{
+                        loop = false;
+                    }
+                }
             }
+            if (loop){
+                throw new Ex("Id not found!");
+            }
+        }catch (Ex e){
+            System.out.println(e.getMessage());
         }
         return null;
     }
 
     @Override
     public Map<Integer, Patient> getPatientByAge() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Age?");
-        int age = scanner.nextInt();
-        for (Patient p : dateBase.getPatients()) {
-            if (p.getAge() == age) {
-                System.out.println(p);
+        try {
+            boolean bool = false;
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Age?");
+            int age = scanner.nextInt();
+            for (Hospital hospital : dateBase.getHospitals()) {
+                for (Patient patient : hospital.getPatients()) {
+                    if (patient.getAge() == age) {
+                        System.out.println(patient);
+                        bool = true;
+                    }
+                }
             }
+            if (!bool){
+                throw new Ex("Age not found of something went wrong");
+            }
+        }catch (Ex e){
+            System.out.println(e.getMessage());
         }
-
         return null;
     }
 
     @Override
     public List<Patient> sortPatientsByAge(String ascOrDesc) {
-        if (ascOrDesc.equals("asc")) {
-            return dateBase.getPatients().stream().sorted(Comparator.comparing(Patient::getAge)).toList();
-        } else if (ascOrDesc.equals("desc")) {
-            return dateBase.getPatients().stream().sorted(Comparator.comparing(Patient::getAge).reversed()).toList();
+        try {
+            List<Patient> patients = new ArrayList<>();
+
+            for (Hospital hospital : dateBase.getHospitals()) {
+                patients.addAll(hospital.getPatients());
+            }
+            Comparator<Patient> comparator = Comparator.comparing(Patient::getAge);
+            if (ascOrDesc.equals("asc")) {
+                patients.sort(comparator);
+            } else if (ascOrDesc.equals("desc")) {
+                patients.sort(comparator.reversed());
+            } else {
+                throw new Ex();
+            }
+
+            return patients;
+        } catch (Ex e) {
+            System.out.println(e.getMessage());
         }
         return null;
     }

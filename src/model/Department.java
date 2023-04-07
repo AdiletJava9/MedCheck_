@@ -7,6 +7,8 @@ public class Department {
    private String departmentName;
    private List<Doctor>doctors;
 
+    public Department() {
+    }
 
     public Department(Long id, String departmentName, List<Doctor> doctors) {
         this.id = id;
